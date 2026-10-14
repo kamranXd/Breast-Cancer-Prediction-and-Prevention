@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Breast Cancer AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #fce4ec; margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+        .auth-wrapper { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .auth-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        .auth-card h1 { color: #d81b60; margin-bottom: 20px; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; color: #555; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 2px solid #fce4ec; border-radius: 10px; box-sizing: border-box; }
+        input:focus { outline: none; border-color: #f06292; }
+        .btn-login { background-color: #d81b60; color: white; border: none; padding: 14px; width: 100%; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-login:hover { background-color: #ad1457; }
+        .flash-msg { color: #c62828; background: #ffebee; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h1>Login</h1>
+            
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="flash-msg">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+            <p style="margin-top:20px; font-size:0.9rem;">New here? <a href="/signup" style="color:#d81b60; text-decoration:none; font-weight:bold;">Create an account</a></p>
+        </div>
+    </div>
+</body>
+</html>

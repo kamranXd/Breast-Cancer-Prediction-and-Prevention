@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Breast Cancer Detection</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <style>
+            .container{ background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 400px; text-align: center; }
+            h1{ color: #333; margin-bottom: 1.5rem; }
+            .upload-section{ margin-bottom: 2rem; border: 2px dashed #ccc; padding: 20px; border-radius: 8px; transition: border 0.3s; }
+            .upload-section:hover{ border-color: #4CAF50; }
+            input[type="file"]{ margin: 10px 0; }
+            button{ background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background 0.3s; }
+            button:hover{ background-color: #45a049; }
+            .result-box{ margin-top: 20px; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1.2rem; }
+            .cancer{ background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+            .non-cancer{ background-color: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+            .result-container{ margin-top: 30px; padding: 25px; border-radius: 12px; text-align: left; }
+            .low-risk{ background-color: #e8f5e9; border: 2px solid #2e7d32; color: #1b5e20; }
+            .mod-risk{ background-color: #fff3e0; border: 2px solid #ef6c00; color: #e65100; }
+            .high-risk{ background-color: #ffebee; border: 2px solid #c62828; color: #b71c1c; }
+            .recommendation-text{ 
+                margin-top:15px; 
+                font-weight:normal; 
+                font-size:1rem; 
+                line-height:1.5;
+                border-top:1px solid rgba(0,0,0,0.1);
+                padding-top:10px;
+            }
+        </style>
+    </head>
+<body>
+    <nav class="topnav">
+        <a class="nav-logo" href="/dashboard"><span></span>BreastCare</a>
+        <ul class="nav-links">
+            <li><a href="/dashboard" class="active">Home</a></li>
+            <li><a href="/prevention">Prevention</a></li>
+            <li><a href="/symptoms">Treatment</a></li>
+            <li><a href="/analyzer">Detection</a></li>
+            <li><a href="/history">History</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <a href="/logout" class="nav-cta">Logout</a>
+        {% endif %}
+    </nav>
+    <div class="detection-bg">
+<section class="section" id="detection">
+  <p class="section-label">Self-care guide</p>
+  <h2 class="section-title">Early detection saves lives</h2>
+  <p class="section-desc">The earlier breast cancer is found, the greater the chance of successful treatment. Know the steps they could save your life.</p>
+
+  <div class="detection-grid">
+    <div class="detection-steps">
+      <div class="det-step">
+        <div class="det-step-num">1</div>
+        <div>
+          <div class="det-step-title">Monthly breast self-examination</div>
+          <div class="det-step-body">Check your breasts once a month, a few days after your period ends. Look and feel for any changes in shape, skin texture, nipple appearance or any lumps. Report anything unusual to your doctor promptly.</div>
+        </div>
+      </div>
+      <div class="det-step">
+        <div class="det-step-num">2</div>
+        <div>
+          <div class="det-step-title">Annual clinical breast exam</div>
+          <div class="det-step-body">Women aged 20–40 should have a clinical breast exam by a healthcare provider every 1–3 years. Women over 40 should have one annually. A professional exam detects changes that self-exam may miss.</div>
+        </div>
+      </div>
+      <div class="det-step">
+        <div class="det-step-num">3</div>
+        <div>
+          <div class="det-step-title">Mammography screening</div>
+          <div class="det-step-body">Annual mammograms are recommended starting at age 40 for average-risk women. Those with a family history or genetic risk may start earlier. Mammography can detect tumours up to 2 years before they become palpable.</div>
+        </div>
+      </div>
+      <div class="det-step">
+        <div class="det-step-num">4</div>
+        <div>
+          <div class="det-step-title">Ultrasound &amp; MRI for high-risk women</div>
+          <div class="det-step-body">Women with dense breast tissue, a BRCA mutation, or a strong family history may benefit from supplemental screening with ultrasound or breast MRI, which offers higher sensitivity than mammography alone.</div>
+        </div>
+      </div>
+      <div class="det-step">
+        <div class="det-step-num">5</div>
+        <div>
+          <div class="det-step-title">Know the warning signs</div>
+          <div class="det-step-body">Seek immediate medical advice if you notice: a new lump or thickening, changes in breast size or shape, skin dimpling or redness, nipple discharge or inversion, or persistent breast pain. Early reporting is key.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detection-visual">
+      <div class="container">
+            <h1>Breast Cancer Analysis</h1>
+            <form action="/analyzer" method="post" enctype="multipart/form-data">
+                <div class="upload-section">
+                    <p>Upload Mammogram Image</p>
+                    <input type="file" name="imagefile" accept="image/*" required>
+                </div>
+                <button type="submit">Analyze Scan</button>
+            </form>
+            {% if prediction %}
+            <div class="result-container {{ risk_class }}">
+                <h3 style="margin-top:0;">AI Analysis: {{ prediction }}</h3>
+                <div class="recommendation-text">
+                    <strong>Recommended Next Steps:</strong><br>
+                        {{ recommendation }}
+                </div>
+        
+                    {% if risk_class == 'high-risk' or risk_class == 'mod-risk' %}
+                <div style="margin-top: 15px;">
+                    <a href="/symptoms" style="color: inherit; font-size: 0.9rem;">View symptoms to look for →</a>
+                </div>
+                {% endif %}
+                </div>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Breast Cancer | Breast Cancer AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .info-section{
+            max-width: 900px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+            text-align: left;
+            line-height: 1.8;
+        }
+        .info-section h1{ color: #d81b60; text-align: center; margin-bottom: 30px; }
+        .info-section h2{ color: #333; margin-top: 35px; border-left: 5px solid #d81b60; padding-left: 15px; }
+
+        .type-box{ background: #fff5f8; padding: 20px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #fce4ec; }
+        .type-box strong{ color: #d81b60; font-size: 1.1rem; }
+        .step-list{ counter-reset: step-counter; list-style: none; padding: 0; }
+        .step-item{ position: relative; padding-left: 60px; margin-bottom: 25px; min-height: 50px; }
+        .step-item::before{
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute; left: 0; top: 0;
+            width: 40px; height: 40px;
+            background: #d81b60; color: white;
+            border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="topnav">
+        <a class="nav-logo" href="/dashboard"><span></span>BreastCare</a>
+        <ul class="nav-links">
+            <li><a href="/dashboard" class="active">Home</a></li>
+            <li><a href="/prevention">Prevention</a></li>
+            <li><a href="/symptoms">Treatment</a></li>
+            <li><a href="/analyzer">Detection</a></li>
+            <li><a href="/history">History</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <a href="/logout" class="nav-cta">Logout</a>
+        {% endif %}
+    </nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Breast Cancer Prediction &amp; Prevention</p>
+    <h1>Awareness, <em>Analysis</em><br>&amp; Action</h1>
+    <p class="hero-sub">Empowering your health journey with AI-driven insights, survivor-led wisdom and the latest in clinical breakthroughs. Step inside to assess your risk.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">2.3M</div>
+        <div class="hero-stat-label">New cases per year globally</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">99%</div>
+        <div class="hero-stat-label">Survival rate if caught early</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">40%</div>
+        <div class="hero-stat-label">Cases are preventable</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="stats-band">
+  <div class="stats-inner">
+    <div>
+      <span class="stat-num">1 in 8</span>
+      <div class="stat-label">Women will develop breast cancer in their lifetime</div>
+    </div>
+    <div>
+      <span class="stat-num">99%</span>
+      <div class="stat-label">5-year survival rate when caught at Stage 1</div>
+    </div>
+    <div>
+      <span class="stat-num">30%</span>
+      <div class="stat-label">Risk reduction with regular exercise</div>
+    </div>
+    <div>
+      <span class="stat-num">162K</span>
+      <div class="stat-label">New cases in India annually</div>
+    </div>
+    <div>
+      <span class="stat-num">5 yrs</span>
+      <div class="stat-label">Earlier detection now possible with AI screening</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

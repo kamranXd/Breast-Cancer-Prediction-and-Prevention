@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History | Breast Cancer AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+
+#history-dashboard-wrapper {
+    padding: 60px 20px !important;
+    background-color: #fcfcfc;
+    min-height: 100vh;
+}
+
+#history-dashboard-wrapper .h-container {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+}
+
+#history-dashboard-wrapper .h-title {
+    font-family: 'inherit';
+    color: #232f3e !important;
+    font-weight: 700 !important;
+    border-left: 5px solid #2a7f7a !important;
+    padding-left: 20px !important;
+    margin: 0 0 10px 0 !important;
+}
+
+#history-dashboard-wrapper .h-subtitle {
+    color: #70757a !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 40px !important;
+    padding-left: 25px !important;
+}
+
+#history-dashboard-wrapper .h-card {
+    background: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.06) !important;
+    overflow: hidden !important;
+    border: 1px solid #eef0f2 !important;
+}
+
+#history-dashboard-wrapper table.h-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 0 !important;
+}
+
+#history-dashboard-wrapper .h-table th {
+    background-color: #3c4858 !important;
+    color: white !important;
+    padding: 20px !important;
+    text-align: left !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+
+#history-dashboard-wrapper .h-table td {
+    padding: 20px !important;
+    border-bottom: 1px solid #f0f2f5 !important;
+    vertical-align: middle !important;
+    color: #4a5568 !important;
+}
+
+#history-dashboard-wrapper .h-status-badge {
+    display: inline-block !important;
+    padding: 8px 14px !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+}
+
+#history-dashboard-wrapper .h-risk-high-risk { background: #fee2e2 !important; color: #b91c1c !important; }
+#history-dashboard-wrapper .h-risk-mod-risk  { background: #fef3c7 !important; color: #92400e !important; }
+#history-dashboard-wrapper .h-risk-low-risk  { background: #dcfce7 !important; color: #15803d !important; }
+
+#history-dashboard-wrapper .h-btn {
+    display: inline-block !important;
+    text-decoration: none !important;
+    color: #2a7f7a !important;
+    border: 2px solid #2a7f7a !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+}
+
+#history-dashboard-wrapper .h-btn:hover {
+    background: #2a7f7a !important;
+    color: white !important;
+}
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <a class="nav-logo" href="/dashboard"><span></span>BreastCare</a>
+        <ul class="nav-links">
+            <li><a href="/dashboard" class="active">Home</a></li>
+            <li><a href="/prevention">Prevention</a></li>
+            <li><a href="/symptoms">Treatment</a></li>
+            <li><a href="/analyzer">Detection</a></li>
+            <li><a href="/history">History</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <a href="/logout" class="nav-cta">Logout</a>
+        {% endif %}
+    </nav>
+<div id="history-dashboard-wrapper">
+    <div class="h-container">
+        <div class="h-header-section">
+            <h2 class="h-title">Scan History</h2>
+            <p class="h-subtitle">View and manage your previous diagnostic results</p>
+        </div>
+        
+        {% if scans %}
+            <div class="h-card">
+                <table class="h-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Prediction Result</th>
+                            <th>Risk Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for scan in scans %}
+                        <tr>
+                            <td class="h-date">{{ scan.created_at.strftime('%b %d, %Y') }}</td>
+                            <td class="h-pred"><strong>{{ scan.prediction }}</strong></td>
+                            <td>
+                                <span class="h-status-badge h-risk-{{ scan.risk_class }}">
+                                    {{ scan.risk_class|replace('-', ' ')|upper }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('view_report', scan_id=scan.id) }}" class="h-btn">
+                                    View Report
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+    {% endif %}
+    </div>
+</div>
+</body>
+</html>

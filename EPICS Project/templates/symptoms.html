@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Symptoms by Age</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .symptoms-container{ max-width: 900px; margin: 40px auto; padding: 20px; }
+        .age-section{ 
+            background: white; 
+            margin-bottom: 30px; 
+            padding: 25px; 
+            border-radius: 12px; 
+            border-left: 8px solid #d81b60;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .age-header{ color: #d81b60; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .symptom-list{ display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+        .symptom-item{ background: #fff5f8; padding: 10px; border-radius: 6px; font-size: 0.95rem; }
+        .warning{ color: #c62828; font-weight: bold; margin-top: 15px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <a class="nav-logo" href="/dashboard"><span></span>BreastCare</a>
+        <ul class="nav-links">
+            <li><a href="/dashboard" class="active">Home</a></li>
+            <li><a href="/prevention">Prevention</a></li>
+            <li><a href="/symptoms">Treatment</a></li>
+            <li><a href="/analyzer">Detection</a></li>
+            <li><a href="/history">History</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <a href="/logout" class="nav-cta">Logout</a>
+        {% endif %}
+    </nav>
+
+    <div class="treatment-bg">
+<section class="section" id="treatment">
+  <div class="section-header-row">
+    <div>
+      <p class="section-label">Medical options</p>
+      <h2 class="section-title">Treatment approaches &amp; cures</h2>
+      <p class="section-desc">Modern breast cancer treatment is highly personalised. Understanding your options empowers better decisions with your care team.</p>
+    </div>
+  </div>
+
+  <div class="treatment-grid">
+    <div class="treat-card fade-in">
+      <div class="treat-top">
+        <div class="treat-num">01</div>
+        <div>
+          <div class="treat-subtitle">First-line</div>
+          <div class="treat-name">Surgery</div>
+        </div>
+      </div>
+      <div class="treat-bottom">
+        <p class="treat-body">Surgery remains the most common initial treatment. Options include a lumpectomy (removal of the tumour and a small margin) or a mastectomy (removal of the entire breast). Sentinel lymph node biopsy helps determine if cancer has spread.</p>
+        <div class="treat-pills">
+          <span class="treat-pill">Lumpectomy</span>
+          <span class="treat-pill">Mastectomy</span>
+          <span class="treat-pill">Reconstruction</span>
+          <span class="treat-pill">Lymph node biopsy</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="treat-card fade-in">
+      <div class="treat-top">
+        <div class="treat-num">02</div>
+        <div>
+          <div class="treat-subtitle">Adjuvant therapy</div>
+          <div class="treat-name">Chemotherapy</div>
+        </div>
+      </div>
+      <div class="treat-bottom">
+        <p class="treat-body">Chemotherapy uses powerful drugs to kill cancer cells or stop them dividing. It may be given before surgery (neoadjuvant, to shrink the tumour) or after surgery to reduce recurrence risk. Protocols are tailored by cancer subtype and stage.</p>
+        <div class="treat-pills">
+          <span class="treat-pill">Anthracyclines</span>
+          <span class="treat-pill">Taxanes</span>
+          <span class="treat-pill">CMF regimen</span>
+          <span class="treat-pill">Dose-dense</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="treat-card fade-in">
+      <div class="treat-top">
+        <div class="treat-num">03</div>
+        <div>
+          <div class="treat-subtitle">Hormone-positive cancers</div>
+          <div class="treat-name">Hormone therapy</div>
+        </div>
+      </div>
+      <div class="treat-bottom">
+        <p class="treat-body">For oestrogen or progesterone receptor-positive cancers, hormone therapy blocks the body's oestrogen to slow or stop tumour growth. Taken for 5–10 years after primary treatment, it dramatically reduces recurrence rates.</p>
+        <div class="treat-pills">
+          <span class="treat-pill">Tamoxifen</span>
+          <span class="treat-pill">Aromatase inhibitors</span>
+          <span class="treat-pill">Ovarian suppression</span>
+          <span class="treat-pill">CDK4/6 inhibitors</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="treat-card fade-in">
+      <div class="treat-top">
+        <div class="treat-num">04</div>
+        <div>
+          <div class="treat-subtitle">HER2-positive</div>
+          <div class="treat-name">Targeted therapy</div>
+        </div>
+      </div>
+      <div class="treat-bottom">
+        <p class="treat-body">Targeted therapies attack specific proteins or genes that help cancer grow. Trastuzumab (Herceptin) revolutionised HER2-positive breast cancer treatment. Newer agents like pertuzumab and T-DM1 have further improved outcomes.</p>
+        <div class="treat-pills">
+          <span class="treat-pill">Trastuzumab</span>
+          <span class="treat-pill">Pertuzumab</span>
+          <span class="treat-pill">T-DM1</span>
+          <span class="treat-pill">Lapatinib</span>
+          <span class="treat-pill">PARP inhibitors</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="treat-card fade-in">
+      <div class="treat-top">
+        <div class="treat-num">05</div>
+        <div>
+          <div class="treat-subtitle">Localised control</div>
+          <div class="treat-name">Radiation therapy</div>
+        </div>
+      </div>
+      <div class="treat-bottom">
+        <p class="treat-body">Radiation therapy uses high-energy rays to destroy remaining cancer cells after surgery. It significantly reduces local recurrence, especially following lumpectomy. Modern techniques like IMRT and proton therapy minimise damage to surrounding tissue.</p>
+        <div class="treat-pills">
+          <span class="treat-pill">Whole breast RT</span>
+          <span class="treat-pill">Partial breast</span>
+          <span class="treat-pill">IMRT</span>
+          <span class="treat-pill">Proton therapy</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="treat-card fade-in">
+      <div class="treat-top">
+        <div class="treat-num">06</div>
+        <div>
+          <div class="treat-subtitle">Emerging frontier</div>
+          <div class="treat-name">Immunotherapy</div>
+        </div>
+      </div>
+      <div class="treat-bottom">
+        <p class="treat-body">Immunotherapy helps the immune system recognise and destroy cancer cells. Checkpoint inhibitors such as pembrolizumab are now approved for triple-negative breast cancer. CAR-T cell therapy is showing promise in clinical trials for HER2-positive metastatic disease.</p>
+        <div class="treat-pills">
+          <span class="treat-pill">Pembrolizumab</span>
+          <span class="treat-pill">Atezolizumab</span>
+          <span class="treat-pill">CAR-T cells</span>
+          <span class="treat-pill">Cancer vaccines</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</body>
+</html>

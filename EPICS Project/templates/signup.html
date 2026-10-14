@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | Breast Cancer AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body{ 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #fce4ec; 
+            margin: 0; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .auth-wrapper{
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .auth-card{
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .auth-card h1{
+            color: #d81b60;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .auth-card p{
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+        .form-group{
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .form-group label{
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"]{
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #fce4ec;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box; 
+            transition: border-color 0.3s;
+        }
+        input:focus{
+            outline: none;
+            border-color: #f06292;
+        }
+        .btn-signup{
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-signup:hover{
+            background-color: #ad1457;
+            transform: translateY(-2px);
+        }
+        .auth-footer{
+            margin-top: 25px;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .auth-footer a{
+            color: #d81b60;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .auth-footer a:hover{
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h1>Create Account</h1>
+            <p>Join our community for AI-powered breast health insights.</p>
+            
+            <form action="/signup" method="POST">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="username" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="email@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Min. 8 characters" required minlength="8">
+                </div>
+
+                <button type="submit" class="btn-signup">Register Now</button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="/login">Login here</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
