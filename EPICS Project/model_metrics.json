@@ -1,0 +1,22 @@
+{
+  "model": "EfficientNetB3 (ImageNet weights, frozen) + GlobalAveragePooling2D + Dropout(0.5) + Dense(1, sigmoid)",
+  "dataset": "Breast Cancer image dataset (binary: cancer / non-cancer)",
+  "evaluation_split": "20% stratified hold-out from train_test_split(random_state=42)",
+  "validation_samples": 149,
+  "threshold": 0.5,
+  "positive_class": "Cancer",
+  "accuracy": 0.9396,
+  "precision_cancer": 0.9444,
+  "recall_cancer": 0.68,
+  "f1_cancer": 0.7907,
+  "support_cancer": 25,
+  "precision_non_cancer": 0.9389,
+  "recall_non_cancer": 0.9919,
+  "f1_non_cancer": 0.9647,
+  "support_non_cancer": 124,
+  "macro_f1": 0.8777,
+  "weighted_f1": 0.9355,
+  "roc_auc": null,
+  "source": "Breast_Cancer_Prediction.ipynb, cell 36 (sklearn classification_report on the validation split)",
+  "notes": "roc_auc was never recorded during training. Run `python evaluate.py --cancer-dir <dir> --non-cancer-dir <dir>` on a labelled test set to compute precision/recall/F1 and ROC-AUC and refresh this file. Recall on the cancer class (0.68) is the weakest number and the most clinically important: roughly 1 in 3 cancers in the validation split were missed at the 0.5 threshold."
+}

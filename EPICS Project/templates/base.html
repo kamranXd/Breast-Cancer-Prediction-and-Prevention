@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block page_title %}Breast Care AI{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="topnav">
+        <a class="nav-logo" href="/dashboard"><span></span>BreastCare</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="/dashboard" class="{{ 'active' if request.path == '/dashboard' }}">Home</a></li>
+            <li><a href="/prevention" class="{{ 'active' if request.path == '/prevention' }}">Prevention</a></li>
+            <li><a href="/symptoms" class="{{ 'active' if request.path == '/symptoms' }}">Treatment</a></li>
+            <li><a href="/analyzer" class="{{ 'active' if request.path == '/analyzer' }}">Detection</a></li>
+            <li><a href="/history" class="{{ 'active' if request.path == '/history' }}">History</a></li>
+        </ul>
+        {% if current_user.is_authenticated %}
+            <a href="/logout" class="nav-cta">Logout</a>
+        {% else %}
+            <a href="/login" class="nav-cta">Sign In</a>
+        {% endif %}
+    </nav>
+
+    <div class="page-wrapper">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-stack">
+                    {% for category, message in messages %}
+                        <div class="flash-msg {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        (function () {
+            var toggle = document.getElementById('nav-toggle');
+            var navLinks = document.getElementById('nav-links');
+            if (!toggle || !navLinks) return;
+            toggle.addEventListener('click', function () {
+                var open = navLinks.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+            navLinks.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    navLinks.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

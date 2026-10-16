@@ -1,41 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Symptoms by Age</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .symptoms-container{ max-width: 900px; margin: 40px auto; padding: 20px; }
-        .age-section{ 
-            background: white; 
-            margin-bottom: 30px; 
-            padding: 25px; 
-            border-radius: 12px; 
-            border-left: 8px solid #d81b60;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .age-header{ color: #d81b60; margin-top: 0; display: flex; align-items: center; gap: 10px; }
-        .symptom-list{ display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .symptom-item{ background: #fff5f8; padding: 10px; border-radius: 6px; font-size: 0.95rem; }
-        .warning{ color: #c62828; font-weight: bold; margin-top: 15px; font-size: 0.9rem; }
-    </style>
-</head>
-<body>
-    <nav class="topnav">
-        <a class="nav-logo" href="/dashboard"><span></span>BreastCare</a>
-        <ul class="nav-links">
-            <li><a href="/dashboard" class="active">Home</a></li>
-            <li><a href="/prevention">Prevention</a></li>
-            <li><a href="/symptoms">Treatment</a></li>
-            <li><a href="/analyzer">Detection</a></li>
-            <li><a href="/history">History</a></li>
-        </ul>
-        {% if current_user.is_authenticated %}
-            <a href="/logout" class="nav-cta">Logout</a>
-        {% endif %}
-    </nav>
+{% extends "base.html" %}
 
-    <div class="treatment-bg">
+{% block page_title %}Treatment Approaches | Breast Cancer AI{% endblock %}
+
+{% block content %}
+<div class="treatment-bg">
 <section class="section" id="treatment">
   <div class="section-header-row">
     <div>
@@ -163,5 +131,4 @@
   </div>
 </section>
 </div>
-</body>
-</html>
+{% endblock %}

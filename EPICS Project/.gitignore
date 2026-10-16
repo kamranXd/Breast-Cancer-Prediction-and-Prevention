@@ -4,3 +4,23 @@ __pycache__/
 .DS_Store
 *.pyc
 instance/
+
+# Trained weights are large (44 MB) and are fetched/rebuilt separately.
+# Point the MODEL_PATH environment variable at the file instead.
+imagenet_model.h5
+*.h5
+*.keras
+
+# Uploaded / transient files
+uploads/
+images/*.jpg
+images/*.jpeg
+images/*.png
+images/*.bmp
+images/*.webp
+
+# Local test artefacts
+*.db
+.pytest_cache/
+verify_app.py
+verify_out.txt

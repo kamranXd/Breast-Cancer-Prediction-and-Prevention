@@ -1,76 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Report</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        body{ font-family: 'Segoe UI', sans-serif; background-color: #fce4ec; margin: 0; padding-top: 20px; }
-        .navbar{
-            background-color: #d81b60;
-            padding: 15px 0;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: center; 
-            margin-bottom: 20px;
-        }   
-        .report-card{
-            max-width: 600px;
-            margin:100px auto 40px auto;
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            justify-content: center;
-        }
-        .header{ border-bottom: 2px solid #fce4ec; padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
-        .header h1{ color: #d81b60; margin: 0; }
-        
-        .status-badge{
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        .low-risk{ background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
-        .mod-risk{ background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
-        .high-risk{ background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
-        .section-title{ color: #555; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 10px; }
-        .content-text{ font-size: 1.1rem; line-height: 1.6; color: #333; margin-bottom: 30px; }        
-        .actions{ display: flex; gap: 15px; margin-top: 20px; }
-        .btn{ flex: 1; padding: 12px; border-radius: 10px; text-decoration: none; text-align: center; font-weight: bold; transition: 0.3s; }
-        .btn-primary{ background: #d81b60; color: white; }
-        .btn-outline{ border: 2px solid #d81b60; color: #d81b60; }
-        .btn:hover{ opacity: 0.8; transform: translateY(-2px); }
-    </style>
-</head>
-<body>
-    <div class="report-card">
-        <div class="header">
-            <h1>Model Prediction</h1>
-        </div>
+{% extends "base.html" %}
 
+{% block page_title %}Analysis Report | Breast Cancer AI{% endblock %}
+
+{% block extra_head %}
+<style>
+    .report-card {
+        max-width: 640px; margin: 40px auto; background: white; padding: 40px;
+        border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+    .report-card .header { border-bottom: 2px solid #fce4ec; padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
+    .report-card .header h1 { color: #d81b60; margin: 0; }
+    .report-card .report-date { color: #888; font-size: 0.85rem; margin-top: 6px; }
+
+    .status-badge { display: inline-block; padding: 10px 20px; border-radius: 50px; font-weight: bold; font-size: 1.2rem; margin-bottom: 20px; }
+    .low-risk { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .mod-risk { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+    .high-risk { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+
+    .section-title { color: #555; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 10px; }
+    .content-text { font-size: 1.05rem; line-height: 1.6; color: #333; margin-bottom: 30px; }
+
+    .actions { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+    .actions .btn { flex: 1; min-width: 150px; padding: 12px; border-radius: 10px; text-decoration: none; text-align: center; font-weight: bold; transition: 0.3s; }
+    .btn-primary { background: #d81b60; color: white; }
+    .btn-outline { border: 2px solid #d81b60; color: #d81b60; }
+    .btn:hover { opacity: 0.8; transform: translateY(-2px); }
+
+    .metrics { margin-top: 35px; border-top: 1px solid #f0f0f0; padding-top: 25px; }
+    .metrics h3 { font-size: 0.95rem; color: #444; margin: 0 0 4px 0; }
+    .metrics .metrics-sub { color: #888; font-size: 0.8rem; margin: 0 0 18px 0; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+    .metric { background: #fafafa; border: 1px solid #eee; border-radius: 10px; padding: 12px; text-align: center; }
+    .metric .metric-value { font-size: 1.25rem; font-weight: 700; color: #2a7f7a; }
+    .metric .metric-label { font-size: 0.72rem; color: #777; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+    .metrics-foot { font-size: 0.75rem; color: #999; margin-top: 14px; line-height: 1.5; }
+
+    .disclaimer { margin-top: 25px; font-size: 0.78rem; color: #8a8a8a; line-height: 1.5; border-left: 3px solid #fce4ec; padding-left: 12px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="report-card">
+    <div class="header">
+        <h1>Model Prediction</h1>
+        {% if created_at %}<div class="report-date">{{ created_at.strftime('%B %d, %Y · %H:%M') }} UTC</div>{% endif %}
+    </div>
+
+    <div style="text-align:center;">
         <div class="status-badge {{ risk_class }}">
             {{ prediction }}
         </div>
-
-        <div class="section-title">What to do Next</div>
-        <div class="content-text">
-            {{ recommendation | safe}}
-        </div>
-
-        <div class="actions">
-            <a href="/analyzer" class="btn btn-outline">New Analysis</a>
-            <a href="/symptoms" class="btn btn-primary">Symptoms Guide</a>
-        </div>
-        
     </div>
-</body>
-</html>
+
+    <div class="section-title">What to do Next</div>
+    <div class="content-text">
+        {{ recommendation | safe }}
+    </div>
+
+    <div class="actions">
+        {% if scan_id %}
+            <a href="{{ url_for('view_report', scan_id=scan_id) }}" class="btn btn-outline">Permalink</a>
+        {% endif %}
+        <a href="{{ url_for('predict') }}" class="btn btn-outline">New Analysis</a>
+        <a href="{{ url_for('symptoms') }}" class="btn btn-primary">Treatment Guide</a>
+    </div>
+
+    {% if metrics %}
+    <div class="metrics">
+        <h3>Model performance</h3>
+        <p class="metrics-sub">
+            Measured on the {{ metrics.validation_samples }}-image held-out validation split
+            (threshold {{ metrics.threshold }}).
+        </p>
+        <div class="metrics-grid">
+            {% if metrics.accuracy is not none %}
+            <div class="metric">
+                <div class="metric-value">{{ '%.1f'|format(metrics.accuracy * 100) }}%</div>
+                <div class="metric-label">Accuracy</div>
+            </div>
+            {% endif %}
+            {% if metrics.precision_cancer is not none %}
+            <div class="metric">
+                <div class="metric-value">{{ '%.1f'|format(metrics.precision_cancer * 100) }}%</div>
+                <div class="metric-label">Cancer precision</div>
+            </div>
+            {% endif %}
+            {% if metrics.recall_cancer is not none %}
+            <div class="metric">
+                <div class="metric-value">{{ '%.1f'|format(metrics.recall_cancer * 100) }}%</div>
+                <div class="metric-label">Cancer recall</div>
+            </div>
+            {% endif %}
+            {% if metrics.f1_cancer is not none %}
+            <div class="metric">
+                <div class="metric-value">{{ '%.1f'|format(metrics.f1_cancer * 100) }}%</div>
+                <div class="metric-label">Cancer F1</div>
+            </div>
+            {% endif %}
+            {% if metrics.roc_auc is not none %}
+            <div class="metric">
+                <div class="metric-value">{{ '%.3f'|format(metrics.roc_auc) }}</div>
+                <div class="metric-label">ROC-AUC</div>
+            </div>
+            {% endif %}
+            {% if metrics.support_cancer is not none %}
+            <div class="metric">
+                <div class="metric-value">{{ metrics.support_cancer }}</div>
+                <div class="metric-label">Cancer samples</div>
+            </div>
+            {% endif %}
+        </div>
+        <p class="metrics-foot">
+            Recall is the share of true cancers the model catches; it is the metric to watch
+            for a screening aid.{% if not metrics.roc_auc %} ROC-AUC is not recorded yet — run
+            <code>evaluate.py</code> against a labelled test set to add it.{% endif %}
+        </p>
+    </div>
+    {% endif %}
+
+    <p class="disclaimer">
+        This result is a statistical estimate from an image-classification model, not a
+        medical diagnosis. It must not replace examination, imaging or biopsy performed by
+        a qualified clinician.
+    </p>
+</div>
+{% endblock %}

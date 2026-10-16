@@ -1,0 +1,18 @@
+# Runtime
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
+Werkzeug==3.0.3
+SQLAlchemy==2.1.4
+python-dotenv==1.2.2
+
+# Model / image handling
+tensorflow==2.20.0
+numpy==2.0.0
+Pillow==12.1.0
+
+# Evaluation (evaluate.py)
+scikit-learn==1.8.0
+
+# Tests
+pytest==9.1.1

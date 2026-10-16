@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block page_title %}{{ code }} | Breast Care AI{% endblock %}
+
+{% block content %}
+<div class="error-wrapper">
+    <div class="error-card">
+        <div class="error-code">{{ code }}</div>
+        <p class="error-message">{{ message }}</p>
+        <div class="error-actions">
+            <a href="{{ url_for('landing') }}" class="btn btn-outline">Go home</a>
+            <a href="{{ url_for('predict') }}" class="btn btn-primary">New analysis</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
